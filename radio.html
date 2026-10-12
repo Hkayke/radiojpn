@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOVEM PAN NACIONAL PLAYER</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #161b22;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #ff3333;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #8b949e;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #30363d;
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            border-color: #ff3333;
+            background-color: #ff3333;
+            color: #ffffff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background-color: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #ff3333;
+            margin-bottom: 15px;
+            border-left: 3px solid #ff3333;
+            padding-left: 8px;
+            text-transform: uppercase;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .btn-green { background-color: #2ea44f; color: white; }
+        .btn-green:hover { background-color: #2c974b; }
+        .btn-red { background-color: #da3637; color: white; }
+        .btn-red:hover { background-color: #b82d2e; }
+        .btn-blue { background-color: #1f6feb; color: white; width: 100%; }
+        .btn-blue:hover { background-color: #388bfd; }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background-color: #8b949e;
+        }
+
+        .dot.online { background-color: #2ea44f; box-shadow: 0 0 8px #2ea44f; }
+
+        .login-box {
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: white;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .login-box input:focus {
+            border-color: #ff3333;
+            outline: none;
+        }
+
+        .slot {
+            background-color: #161b22;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border: 1px solid #30363d;
+        }
+
+        .slot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .slot-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .slider-horizontal {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #30363d;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .slider-horizontal::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 5px;
+            background: #1f6feb;
+            cursor: pointer;
+        }
+
+        .effects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .effect-item {
+            background-color: #161b22;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+            text-align: center;
+        }
+
+        .effect-title {
+            font-size: 12px;
+            color: #8b949e;
+            margin-bottom: 5px;
+        }
+
+        .file-label {
+            display: inline-block;
+            background-color: #21262d;
+            border: 1px solid #30363d;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-bottom: 6px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .file-label:hover { background-color: #30363d; }
+        .file-input { display: none; }
+
+        .mixer-grid {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: #161b22;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+        }
+
+        .mixer-channel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mixer-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #8b949e;
+            text-transform: uppercase;
+        }
+
+        .slider-vertical {
+            -webkit-appearance: none;
+            width: 8px;
+            height: 120px;
+            background: #30363d;
+            border-radius: 4px;
+            outline: none;
+            writing-mode: bt-lr; /* IE */
+            transform: rotate(270deg);
+            margin: 55px 0;
+        }
+
+        /* Ajuste do slider vertical para navegadores modernos */
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+            .slider-vertical {
+                transform: rotate(270deg);
+            }
+        }
+
+        /* Sobrescrevendo o padrão para ficar vertical certinho sem bug de clique */
+        .mixer-slider-container {
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 40px;
+        }
+
+        .slider-v {
+            position: absolute;
+            transform: rotate(270deg);
+            width: 120px;
+            height: 8px;
+            -webkit-appearance: none;
+            background: #30363d;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .slider-v::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 5px;
+            background: #da3637;
+            cursor: pointer;
+        }
+
+        .listener-view {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .player-status {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .now-playing {
+            background-color: #161b22;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+            font-size: 14px;
+            color: #58a6ff;
+            margin-bottom: 20px;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .listener-count-badge {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #8b949e;
+            background-color: #161b22;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #30363d;
+        }
+
+        .listener-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 4px;
+            background-color: #8b949e;
+        }
+        .listener-dot.active {
+            background-color: #58a6ff;
+            box-shadow: 0 0 6px #58a6ff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Jovem Pan Nacional Player</h1>
+        <p>Você está ouvindo: JOVEM PAN NACIONAL PLAYER</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('ouvinte')">Área do Ouvinte</button>
+        <button class="tab-btn" onclick="switchTab('locucao')">Painel de Locução</button>
+    </div>
+
+    <!-- ÁREA DO OUVINTE -->
+    <div id="tab-ouvinte" class="tab-content active">
+        <div class="card listener-view">
+            <div class="player-status" id="listener-status-text">ESTÚDIO OFFLINE</div>
+            <div class="now-playing" id="listener-now-playing">Nenhuma música tocando no momento</div>
+            
+            <button class="btn btn-blue" id="btn-ouvir" onclick="toggleOuvinteSintonia()">Ouvir Rádio</button>
+            
+            <div>
+                <div class="listener-count-badge">
+                    <span class="listener-dot" id="listener-live-dot"></span>
+                    <span>Ouvintes: <strong id="listener-count-val">0</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAINEL DE LOCUÇÃO (LOGIN) -->
+    <div id="tab-locucao" class="tab-content">
+        <div id="locucao-login" class="card login-box">
+            <div class="card-title">Acesso Restrito ao Locutor</div>
+            <input type="password" id="pass-input" placeholder="Digite a senha do administrador">
+            <button class="btn btn-blue" onclick="checkLogin()">Entrar no Estúdio</button>
+        </div>
+
+        <!-- PAINEL DE LOCUÇÃO (ESTÚDIO ATIVO) -->
+        <div id="locucao-studio" style="display: none;">
+            <!-- Status e Iniciar/Finalizar -->
+            <div class="card status-bar">
+                <div class="status-indicator">
+                    <div class="dot" id="studio-dot"></div>
+                    <span id="studio-status-text">ESTÚDIO OFFLINE</span>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-green" onclick="iniciarRadio()">INICIAR RÁDIO</button>
+                    <button class="btn btn-red" onclick="finalizarRadio()">FINALIZAR</button>
+                </div>
+            </div>
+
+            <!-- Controle de Locução -->
+            <div class="card">
+                <div class="card-title">Controle de Locução (Microfone)</div>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <span id="mic-status-text" style="font-size: 14px; font-weight: bold; color: #8b949e;">Microfone Fechado</span>
+                    <button class="btn btn-blue" id="btn-mic" style="width: auto; padding: 10px 20px;" onclick="toggleMicrofone()">Abrir Microfone</button>
+                </div>
+            </div>
+
+            <!-- Slots de Músicas -->
+            <div class="card">
+                <div class="card-title">Slots de Músicas (Máx. 5)</div>
+                
+                <!-- Slot 1 -->
+                <div class="slot">
+                    <div class="slot-header">
+                        <span id="music-name-1" style="font-weight: bold;">Slot 1: Vazio</span>
+                        <label class="file-label" style="width: auto; margin-bottom: 0;">Carregar<input type="file" class="file-input" accept="audio/*" onchange="loadAudio(event, 1)"></label>
+                    </div>
+                    <div class="slot-controls">
+                        <button class="btn-sm btn-green" onclick="playAudio(1)">Play</button>
+                        <button class="btn-sm btn-red" onclick="stopAudio(1)">Stop</button>
+                        <input type="range" class="slider-horizontal" id="vol-music-1" min="0" max="100" value="80" oninput="updateMusicVolume(1)">
+                    </div>
+                </div>
+
+                <!-- Slot 2 -->
+                <div class="slot">
+                    <div class="slot-header">
+                        <span id="music-name-2" style="font-weight: bold;">Slot 2: Vazio</span>
+                        <label class="file-label" style="width: auto; margin-bottom: 0;">Carregar<input type="file" class="file-input" accept="audio/*" onchange="loadAudio(event, 2)"></label>
+                    </div>
+                    <div class="slot-controls">
+                        <button class="btn-sm btn-green" onclick="playAudio(2)">Play</button>
+                        <button class="btn-sm btn-red" onclick="stopAudio(2)">Stop</button>
+                        <input type="range" class="slider-horizontal" id="vol-music-2" min="0" max="100" value="80" oninput="updateMusicVolume(2)">
+                    </div>
+                </div>
+
+                <!-- Slot 3 -->
+                <div class="slot">
+                    <div class="slot-header">
+                        <span id="music-name-3" style="font-weight: bold;">Slot 3: Vazio</span>
+                        <label class="file-label" style="width: auto; margin-bottom: 0;">Carregar<input type="file" class="file-input" accept="audio/*" onchange="loadAudio(event, 3)"></label>
+                    </div>
+                    <div class="slot-controls">
+                        <button class="btn-sm btn-green" onclick="playAudio(3)">Play</button>
+                        <button class="btn-sm btn-red" onclick="stopAudio(3)">Stop</button>
+                        <input type="range" class="slider-horizontal" id="vol-music-3" min="0" max="100" value="80" oninput="updateMusicVolume(3)">
+                    </div>
+                </div>
+
+                <!-- Slot 4 -->
+                <div class="slot">
+                    <div class="slot-header">
+                        <span id="music-name-4" style="font-weight: bold;">Slot 4: Vazio</span>
+                        <label class="file-label" style="width: auto; margin-bottom: 0;">Carregar<input type="file" class="file-input" accept="audio/*" onchange="loadAudio(event, 4)"></label>
+                    </div>
+                    <div class="slot-controls">
+                        <button class="btn-sm btn-green" onclick="playAudio(4)">Play</button>
+                        <button class="btn-sm btn-red" onclick="stopAudio(4)">Stop</button>
+                        <input type="range" class="slider-horizontal" id="vol-music-4" min="0" max="100" value="80" oninput="updateMusicVolume(4)">
+                    </div>
+                </div>
+
+                <!-- Slot 5 -->
+                <div class="slot">
+                    <div class="slot-header">
+                        <span id="music-name-5" style="font-weight: bold;">Slot 5: Vazio</span>
+                        <label class="file-label" style="width: auto; margin-bottom: 0;">Carregar<input type="file" class="file-input" accept="audio/*" onchange="loadAudio(event, 5)"></label>
+                    </div>
+                    <div class="slot-controls">
+                        <button class="btn-sm btn-green" onclick="playAudio(5)">Play</button>
+                        <button class="btn-sm btn-red" onclick="stopAudio(5)">Stop</button>
+                        <input type="range" class="slider-horizontal" id="vol-music-5" min="0" max="100" value="80" oninput="updateMusicVolume(5)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slots de Efeitos Instantâneos -->
+            <div class="card">
+                <div class="card-title">Slots de Efeitos Instantâneos (Máx. 5)</div>
+                <div class="effects-grid">
+                    <div class="effect-item">
+                        <div class="effect-title" id="fx-name-1">Efeito 1</div>
+                        <label class="file-label">Carregar<input type="file" class="file-input" accept="audio/*" onchange="loadEffect(event, 1)"></label>
+                        <button class="btn btn-blue" style="padding: 6px 0; font-size: 12px;" onclick="triggerEffect(1)">DISPARAR</button>
+                    </div>
+                    <div class="effect-item">
+                        <div class="effect-title" id="fx-name-2">Efeito 2</div>
+                        <label class="file-label">Carregar<input type="file" class="file-input" accept="audio/*" onchange="loadEffect(event, 2)"></label>
+                        <button class="btn btn-blue" style="padding: 6px 0; font-size: 12px;" onclick="triggerEffect(2)">DISPARAR</button>
+                    </div>
+                    <div class="effect-item">
+                        <div class="effect-title" id="fx-name-3">Efeito 3</div>
+                        <label class="file-label">Carregar<input type="file" class="file-input" accept="audio/*" onchange="loadEffect(event, 3)"></label>
+                        <button class="btn btn-blue" style="padding: 6px 0; font-size: 12px;" onclick="triggerEffect(3)">DISPARAR</button>
+                    </div>
+                    <div class="effect-item">
+                        <div class="effect-title" id="fx-name-4">Efeito 4</div>
+                        <label class="file-label">Carregar<input type="file" class="file-input" accept="audio/*" onchange="loadEffect(event, 4)"></label>
+                        <button class="btn btn-blue" style="padding: 6px 0; font-size: 12px;" onclick="triggerEffect(4)">DISPARAR</button>
+                    </div>
+                    <div class="effect-item" style="grid-column: span 2; max-width: 50%; margin: 0 auto; width: 100%;">
+                        <div class="effect-title" id="fx-name-5">Efeito 5</div>
+                        <label class="file-label">Carregar<input type="file" class="file-input" accept="audio/*" onchange="loadEffect(event, 5)"></label>
+                        <button class="btn btn-blue" style="padding: 6px 0; font-size: 12px;" onclick="triggerEffect(5)">DISPARAR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mesa de Som (Ajuste Master) -->
+            <div class="card">
+                <div class="card-title">Mesa de Som (Ajuste Master)</div>
+                <div class="mixer-grid">
+                    <div class="mixer-channel">
+                        <span class="mixer-label">Músicas</span>
+                        <div class="mixer-slider-container">
+                            <input type="range" class="slider-v" id="master-music-mixer" min="0" max="100" value="100" oninput="applyMixerGains()">
+                        </div>
+                    </div>
+                    <div class="mixer-channel">
+                        <span class="mixer-label">Efeitos</span>
+                        <div class="mixer-slider-container">
+                            <input type="range" class="slider-v" id="master-effects-mixer" min="0" max="100" value="100" oninput="applyMixerGains()">
+                        </div>
+                    </div>
+                    <div class="mixer-channel">
+                        <span class="mixer-label">Master</span>
+                        <div class="mixer-slider-container">
+                            <input type="range" class="slider-v" id="master-global-mixer" min="0" max="100" value="100" oninput="applyMixerGains()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    // Gerenciador de Áudio e Estado
+    const audioContext = {
+        isOnline: false,
+        musics: {},  // Armazena referências dos elementos de áudio das músicas
+        effects: {}, // Armazena referências dos elementos de áudio dos efeitos
+        micStream: null,
+        micNode: null,
+        audioCtx: null,
+        
+        // Nós de ganho para controle da Mesa de Som (Ajuste Master)
+        musicGainNode: null,
+        effectsGainNode: null,
+        masterGainNode: null,
+        
+        isMicOpen: false,
+        isSintonizado: false
+    };
+
+    // Inicialização segura das APIs de áudio
+    function initAudioEngine() {
+        if (!audioContext.audioCtx) {
+            audioContext.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Cria os canais de ganho da Mesa de Som
+            audioContext.musicGainNode = audioContext.audioCtx.createGain();
+            audioContext.effectsGainNode = audioContext.audioCtx.createGain();
+            audioContext.masterGainNode = audioContext.audioCtx.createGain();
+            
+            // Conecta a estrutura: Canais -> Master -> Saída Final
+            audioContext.musicGainNode.connect(audioContext.masterGainNode);
+            audioContext.effectsGainNode.connect(audioContext.masterGainNode);
+            audioContext.masterGainNode.connect(audioContext.audioCtx.destination);
+            
+            applyMixerGains();
+        }
+    }
+
+    // Aplica em tempo real os faders da Mesa de Som (Músicas, Efeitos e Master)
+    function applyMixerGains() {
+        if (!audioContext.audioCtx) return;
+        
+        const musicSlider = document.getElementById('master-music-mixer').value / 100;
+        const effectsSlider = document.getElementById('master-effects-mixer').value / 100;
+        const globalSlider = document.getElementById('master-global-mixer').value / 100;
+        
+        audioContext.musicGainNode.gain.setValueAtTime(musicSlider, audioContext.audioCtx.currentTime);
+        audioContext.effectsGainNode.gain.setValueAtTime(effectsSlider, audioContext.audioCtx.currentTime);
+        audioContext.masterGainNode.gain.setValueAtTime(globalSlider, audioContext.audioCtx.currentTime);
+    }
+
+    // Gerenciamento de Abas
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        if(tab === 'ouvinte') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('tab-ouvinte').classList.add('active');
+        } else {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('tab-locucao').classList.add('active');
+        }
+    }
+
+    // Login do Locutor
+    function checkLogin() {
+        const pass = document.getElementById('pass-input').value;
+        if(pass === 'admin123') {
+            document.getElementById('locucao-login').style.display = 'none';
+            document.getElementById('locucao-studio').style.display = 'block';
+        } else {
+            alert('Senha incorreta! Acesso negado.');
+        }
+    }
+
+    // Sistema de Transmissão (Iniciar/Finalizar)
+    function iniciarRadio() {
+        initAudioEngine();
+        if (audioContext.audioCtx.state === 'suspended') {
+            audioContext.audioCtx.resume();
+        }
+        
+        audioContext.isOnline = true;
+        localStorage.setItem('radio_online', 'true');
+        
+        document.getElementById('studio-dot').classList.add('online');
+        document.getElementById('studio-status-text').innerText = 'ESTÚDIO ONLINE';
+        document.getElementById('studio-status-text').style.color = '#2ea44f';
+        
+        updateListenerUI();
+    }
+
+    function finalizarRadio() {
+        audioContext.isOnline = false;
+        localStorage.setItem('radio_online', 'false');
+        localStorage.setItem('radio_now_playing', 'Nenhuma música tocando no momento');
+        
+        document.getElementById('studio-dot').classList.remove('online');
+        document.getElementById('studio-status-text').innerText = 'ESTÚDIO OFFLINE';
+        document.getElementById('studio-status-text').style.color = '#8b949e';
+        
+        // Desliga microfone se estiver aberto
+        if (audioContext.isMicOpen) toggleMicrofone();
+        
+        // Pára todas as músicas e efeitos
+        for (let i = 1; i <= 5; i++) {
+            stopAudio(i);
+        }
+        
+        updateListenerUI();
+    }
+
+    // Carregamento de Arquivos - Músicas
+    function loadAudio(event, slotId) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        initAudioEngine();
+        
+        // Se já existia um elemento, removemos
+        if (audioContext.musics[slotId]) {
+            audioContext.musics[slotId].element.pause();
+        }
+        
+        const audioEl = new Audio(URL.createObjectURL(file));
+        audioEl.loop = false;
+        
+        // Conecta o elemento de áudio ao canal de ganho de Músicas da Mesa de Som
+        const sourceNode = audioContext.audioCtx.createMediaElementSource(audioEl);
+        sourceNode.connect(audioContext.musicGainNode);
+        
+        audioContext.musics[slotId] = {
+            element: audioEl,
+            source: sourceNode,
+            name: file.name
+        };
+        
+        document.getElementById(`music-name-${slotId}`).innerText = file.name.substring(0, 20) + '...';
+        
+        audioEl.onended = () => {
+            if(localStorage.getItem('radio_now_playing') === file.name) {
+                localStorage.setItem('radio_now_playing', 'Nenhuma música tocando no momento');
+            }
+        };
+    }
+
+    // Controles de Música (Play/Stop/Volume individual)
+    function playAudio(slotId) {
+        if (!audioContext.isOnline) {
+            alert('Inicie a rádio antes de soltar o som!');
+            return;
+        }
+        const track = audioContext.musics[slotId];
+        if (!track) {
+            alert('Carregue uma música neste slot primeiro!');
+            return;
+        }
+        
+        // Atualiza volume individual do slot antes do play
+        updateMusicVolume(slotId);
+        track.element.play();
+        
+        localStorage.setItem('radio_now_playing', track.name);
+    }
+
+    function stopAudio(slotId) {
+        const track = audioContext.musics[slotId];
+        if (track) {
+            track.element.pause();
+            track.element.currentTime = 0;
+            if(localStorage.getItem('radio_now_playing') === track.name) {
+                localStorage.setItem('radio_now_playing', 'Nenhuma música tocando no momento');
+            }
+        }
+    }
+
+    function updateMusicVolume(slotId) {
+        const track = audioContext.musics[slotId];
+        if (track) {
+            const volValue = document.getElementById(`vol-music-${slotId}`).value / 100;
+            track.element.volume = volValue; 
+        }
+    }
+
+    // Carregamento de Arquivos - Efeitos
+    function loadEffect(event, slotId) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        initAudioEngine();
+        
+        if (audioContext.effects[slotId]) {
+            audioContext.effects[slotId].element.pause();
+        }
+        
+        const audioEl = new Audio(URL.createObjectURL(file));
+        const sourceNode = audioContext.audioCtx.createMediaElementSource(audioEl);
+        sourceNode.connect(audioContext.effectsGainNode);
+        
+        audioContext.effects[slotId] = {
+            element: audioEl,
+            source: sourceNode,
+            name: file.name
+        };
+        
+        document.getElementById(`fx-name-${slotId}`).innerText = file.name.substring(0, 12);
+    }
+
+    // Disparar Efeito
+    function triggerEffect(slotId) {
+        if (!audioContext.isOnline) {
+            alert('Inicie a rádio antes de disparar os efeitos!');
+            return;
+        }
+        const fx = audioContext.effects[slotId];
+        if (!fx) {
+            alert('Carregue um efeito neste slot primeiro!');
+            return;
+        }
+        fx.element.currentTime = 0;
+        fx.element.play();
+    }
+
+    // Controle do Microfone
+    async function toggleMicrofone() {
+        if (!audioContext.isOnline) {
+            alert('Inicie a rádio antes de abrir o microfone!');
+            return;
+        }
+        
+        if (!audioContext.isMicOpen) {
+            try {
+                audioContext.micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioContext.micNode = audioContext.audioCtx.createMediaStreamSource(audioContext.micStream);
+                
+                // Conecta o microfone direto no Master (ou você pode rotear para efeitos se quiser, conectamos no master para voz limpa)
+                audioContext.micNode.connect(audioContext.masterGainNode);
+                
+                audioContext.isMicOpen = true;
+                document.getElementById('mic-status-text').innerText = 'Microfone ABERTO (Ao Vivo)';
+                document.getElementById('mic-status-text').style.color = '#2ea44f';
+                document.getElementById('btn-mic').innerText = 'Fechar Microfone';
+                document.getElementById('btn-mic').style.backgroundColor = '#da3637';
+            } catch (err) {
+                alert('Erro ao acessar o microfone. Verifique as permissões do seu navegador.');
+                console.error(err);
+            }
+        } else {
+            if (audioContext.micStream) {
+                audioContext.micStream.getTracks().forEach(track => track.stop());
+            }
+            if (audioContext.micNode) {
+                audioContext.micNode.disconnect();
+            }
+            audioContext.isMicOpen = false;
+            document.getElementById('mic-status-text').innerText = 'Microfone Fechado';
+            document.getElementById('mic-status-text').style.color = '#8b949e';
+            document.getElementById('btn-mic').innerText = 'Abrir Microfone';
+            document.getElementById('btn-mic').style.backgroundColor = '#1f6feb';
+        }
+    }
+
+    // Área do Ouvinte - Sistema de Sintonia e Simulação de Contador
+    function toggleOuvinteSintonia() {
+        if (!audioContext.isSintonizado) {
+            audioContext.isSintonizado = true;
+            document.getElementById('btn-ouvir').innerText = 'Desconectar da Rádio';
+            document.getElementById('btn-ouvir').className = 'btn btn-red';
+            
+            // Incrementa contador local compartilhado
+            let currentListeners = parseInt(localStorage.getItem('radio_listeners') || '0');
+            localStorage.setItem('radio_listeners', (currentListeners + 1).toString());
+        } else {
+            audioContext.isSintonizado = false;
+            document.getElementById('btn-ouvir').innerText = 'Ouvir Rádio';
+            document.getElementById('btn-ouvir').className = 'btn btn-blue';
+            
+            // Decrementa contador local compartilhado
+            let currentListeners = parseInt(localStorage.getItem('radio_listeners') || '0');
+            localStorage.setItem('radio_listeners', Math.max(0, currentListeners - 1).toString());
+        }
+        updateListenerUI();
+    }
+
+    // Sincronização e atualização contínua da Interface do Ouvinte
+    function updateListenerUI() {
+        const isOnline = localStorage.getItem('radio_online') === 'true';
+        const nowPlaying = localStorage.getItem('radio_now_playing') || 'Nenhuma música tocando no momento';
+        let listeners = parseInt(localStorage.getItem('radio_listeners') || '0');
+        
+        // Se a rádio está offline, o contador zera ou não conta ouvintes ativos
+        if (!isOnline) {
+            document.getElementById('listener-status-text').innerText = 'ESTÚDIO OFFLINE';
+            document.getElementById('listener-status-text').style.color = '#da3637';
+            document.getElementById('listener-now-playing').innerText = 'Transmissão Encerrada';
+            document.getElementById('listener-count-val').innerText = '0';
+            document.getElementById('listener-live-dot').classList.remove('active');
+        } else {
+            document.getElementById('listener-status-text').innerText = '🔴 AO VIVO';
+            document.getElementById('listener-status-text').style.color = '#2ea44f';
+            document.getElementById('listener-now-playing').innerText = nowPlaying;
+            
+            // Garante que se houver pessoas sintonizadas e rádio online, exibe o número real
+            document.getElementById('listener-count-val').innerText = listeners;
+            if (listeners > 0) {
+                document.getElementById('listener-live-dot').classList.add('active');
+            } else {
+                document.getElementById('listener-live-dot').classList.remove('active');
+            }
+        }
+    }
+
+    // Inicializa variáveis do localStorage limpas se for a primeira execução
+    if (localStorage.getItem('radio_online') === null) localStorage.setItem('radio_online', 'false');
+    if (localStorage.getItem('radio_listeners') === null) localStorage.setItem('radio_listeners', '0');
+
+    // Executa a atualização da UI a cada 1 segundo para manter abas sincronizadas em tempo real
+    setInterval(updateListenerUI, 1000);
+    
+    // Limpa a sintonia ao fechar/recarregar a página para não mofar o contador de ouvintes
+    window.addEventListener('beforeunload', () => {
+        if (audioContext.isSintonizado) {
+            let currentListeners = parseInt(localStorage.getItem('radio_listeners') || '0');
+            localStorage.setItem('radio_listeners', Math.max(0, currentListeners - 1).toString());
+        }
+    });
+</script>
+
+</body>
+</html>
